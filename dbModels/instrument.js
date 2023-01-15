@@ -16,6 +16,7 @@ Instrument.init(
         },
         typeOfInstrument:{
             type: DataTypes.INTEGER,
+            allowNull:false,
             references: {
                 model: 'instrumentTypes',
                 key: 'id'
