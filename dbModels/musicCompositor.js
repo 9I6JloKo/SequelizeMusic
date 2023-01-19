@@ -16,7 +16,7 @@ musicCompositor.init(
             type: DataTypes.INTEGER,
             allowNull:false,
             references: {
-                model: 'musicPieces',
+                model: 'classicMusics',
                 key: 'id'
             }
         }
@@ -24,7 +24,7 @@ musicCompositor.init(
     {
         sequelize:db,
         timestamps:false,
-        modelName: 'musicToCompositor',
+        modelName: 'musicCompositors',
     },
 )
 

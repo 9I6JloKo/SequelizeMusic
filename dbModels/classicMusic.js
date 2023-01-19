@@ -25,7 +25,7 @@ ClassicMusic.init(
     {
         sequelize:db,
         timestamps:false,
-        modelName: 'musicPieces',
+        modelName: 'classicMusics',
     },
 )
 

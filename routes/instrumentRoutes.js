@@ -6,39 +6,7 @@ module.exports = app => {
     app.use('/api/instruments', router)
 }
 
-
-
-    /**
-     * @swagger
-     * tags:
-     *   name: Instruments
-     *   description: The Instruments managing API
-     * /api/instruments/:
-     *   post:
-     *     summary: Create a new Instrument
-     *     tags: [Instruments]
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             $ref: '#/components/schemas/Instrument'
-     *     responses:
-     *       200:
-     *         description: The created Instrument.
-     *         content:
-     *           application/json:
-     *             schema:
-     *               $ref: '#/components/schemas/Instrument'
-     *       500:
-     *         description: Some server error
-     *
-     */
-
-
-
-
-    /**
+/**
 * @swagger
 * components:
 *  schemas:
@@ -82,3 +50,29 @@ module.exports = app => {
 *                                          description: instrument title
 *                                          example: струнно щипковый
 */
+/**
+ * @swagger
+ * tags:
+ *   name: Instruments
+ *   description: The Instruments managing API
+ * /api/instruments/:
+ *   post:
+ *     summary: Create a new Instrument
+ *     tags: [Instruments]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Instrument'
+ *     responses:
+ *       200:
+ *         description: The created Instrument.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Instrument'
+ *       500:
+ *         description: Some server error
+ *
+ */
