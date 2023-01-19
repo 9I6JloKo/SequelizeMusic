@@ -39,40 +39,40 @@ async function dataCreate(){
     app.use(bodyParser.urlencoded({limit:"4000mb", extended: true, parameterLimit:5000000}))
     app.use(bodyParser.json({limit:"4000mb"}))
     app.use(express.static(__dirname + '/public'))
-    const PORT = process.env.PORT || 3000
-    // const options = {
-    //     definition: {
-    //         openapi: "3.0.0",
-        //   info: {
-        //     title: "LogRocket Express API with Swagger",
-        //     version: "0.1.0",
-        //     description:
-        //       "This is a simple CRUD API application made with Express and documented with Swagger",
-        //     license: {
-        //       name: "MIT",
-        //       url: "https://spdx.org/licenses/MIT.html",
-        //     },
-        //     contact: {
-        //       name: "LogRocket",
-        //       url: "https://logrocket.com",
-        //       email: "info@email.com",
-        //     },
-        //   },
-        //     servers: [
-        //         {
-        //         url: "http://localhost:3000",
-        //         },
-        //     ],
-        //     },
-        //     apis: ["./routes/*.js"],
-        // };
+    const options = {
+        definition: {
+            openapi: "3.0.0",
+          info: {
+            title: "LogRocket Express API with Swagger",
+            version: "0.1.0",
+            description:
+              "This is a simple CRUD API application made with Express and documented with Swagger",
+            license: {
+              name: "MIT",
+              url: "https://spdx.org/licenses/MIT.html",
+            },
+            contact: {
+              name: "LogRocket",
+              url: "https://logrocket.com",
+              email: "info@email.com",
+            },
+          },
+            servers: [
+                {
+                url: "http://localhost:3002",
+                },
+            ],
+            },
+            apis: ["./routes/*.js"],
+        };
       
-        // const specs = swaggerJsdoc(options);
-        // app.use(
-        //     "/api-docs",
-        //     swaggerUi.serve,
-        //     swaggerUi.setup(specs, { explorer: true }, )
-        // );
+        const specs = swaggerJsdoc(options);
+        app.use(
+            "/api-docs",
+            swaggerUi.serve,
+            swaggerUi.setup(specs, { explorer: true }, )
+        );
+        const PORT = process.env.PORT || 3002
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}.`)
         })
