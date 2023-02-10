@@ -8,7 +8,15 @@ Link.init(
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
+        },
+        music_id: {
+            type: DataTypes.INTEGER,
+            allowNull:false,
+            references: {
+                model: 'classicMusics',
+                key: 'id'
+            }
         },
         link_string:{
             type: DataTypes.STRING(100),
