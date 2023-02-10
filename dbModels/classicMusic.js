@@ -24,8 +24,12 @@ ClassicMusic.init(
             }
         },
         linkToListen:{
-            type: DataTypes.STRING(1000),
+            type: DataTypes.INTEGER,
             allowNull:true,
+            references: {
+                model: 'links',
+                key: 'id'
+            }
         },
         publishedAt:{
             type: DataTypes.DATE,
