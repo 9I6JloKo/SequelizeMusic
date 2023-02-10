@@ -14,6 +14,10 @@ Instrument.init(
             type: DataTypes.STRING(100),
             allowNull:false,
         },
+        pictureInstrument:{
+            type: DataTypes.STRING(1000),
+            allowNull:true,
+        },
         typeOfInstrument:{
             type: DataTypes.INTEGER,
             allowNull:false,
@@ -21,6 +25,10 @@ Instrument.init(
                 model: 'instrumentTypes',
                 key: 'id'
             }
+        },
+        publishedAt:{
+            type: DataTypes.DATE,
+            allowNull:true,
         }
     },
     {

@@ -10,14 +10,34 @@ Compositor.init(
             primaryKey: true,
             autoIncrement: true
         },
-        fullName:{
+        firstName:{
             type: DataTypes.STRING(100),
+            allowNull:false,
+        },
+        lastName:{
+            type: DataTypes.STRING(100),
+            allowNull:false,
+        },
+        descCompositor:{
+            type: DataTypes.STRING(1000),
             allowNull:false,
         },
         dateOfBirth:{
             type: DataTypes.DATE,
             allowNull:true,
-        }
+        },
+        dateOfDeath:{
+            type: DataTypes.DATE,
+            allowNull:true,
+        },
+        countryOfBirth:{
+            type: DataTypes.STRING(100),
+            allowNull:true,
+        },
+        photoCompositor:{
+            type: DataTypes.STRING(1000),
+            allowNull:true,
+        },
     },
     {
         sequelize:db,

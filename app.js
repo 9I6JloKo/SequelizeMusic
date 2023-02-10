@@ -1,9 +1,12 @@
-let classicMusic = require('./dbModels/classicMusic')
 let compositor = require('./dbModels/compositor')
 let instrument = require('./dbModels/instrument')
+let period = require('./dbModels/period')
+let genre = require('./dbModels/genre')
 let instrumentType = require('./dbModels/instrumentType')
 let ia = require('./dbModels/musicCompositor')
 let ibe = require('./dbModels/musicInstrument')
+let ide = require('./dbModels/musicGenre')
+let classicMusic = require('./dbModels/classicMusic')
 let db = require('./dbCreate/databaseCreate')
 
 

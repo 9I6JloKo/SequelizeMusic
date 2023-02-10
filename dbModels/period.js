@@ -1,10 +1,8 @@
 const {Sequelize,DataTypes,Model} = require('sequelize');
 const db = require('../dbCreate/databaseCreate')
-const Compositor = require('./compositor');
-const Instrument = require('./instrument');
-class ClassicMusic extends Model {}
+class Period extends Model {}
 
-ClassicMusic.init(
+Period.init(
     {
         
         id: {
@@ -12,22 +10,19 @@ ClassicMusic.init(
             primaryKey: true,
             autoIncrement: true
         },
-        title:{
+        period_name:{
             type: DataTypes.STRING(100),
-            allowNull:false,
+            allowNull:false
         },
-        period_id:{
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'periods',
-                key: 'id'
-            }
-        },
-        linkToListen:{
+        desc:{
             type: DataTypes.STRING(1000),
+            allowNull:false
+        },
+        startDate:{
+            type: DataTypes.DATE,
             allowNull:true,
         },
-        publishedAt:{
+        endDate:{
             type: DataTypes.DATE,
             allowNull:true,
         }
@@ -36,8 +31,8 @@ ClassicMusic.init(
     {
         sequelize:db,
         timestamps:false,
-        modelName: 'classicMusics',
+        modelName: 'periods'
     },
 )
 
-module.exports = ClassicMusic
+module.exports = Period
