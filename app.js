@@ -22,7 +22,7 @@ let db = require('./dbCreate/databaseCreate')
 // instrument.belongsTo(instrumentType);
 
 async function dataCreate(){
-    // await db.sync({alter: true}); // force - создать или перезаписать базу с нуля
+    await db.sync({alter: true}); // force - создать или перезаписать базу с нуля
     // await dbAdd(data);
 
     const express = require("express")
@@ -45,6 +45,7 @@ async function dataCreate(){
     app.use(bodyParser.json({limit:"4000mb"}))
     require("./routes/instrumentRoutes")(app)
     require("./routes/instrumentTypeRoutes")(app)
+    require("./routes/musicInstrumentRoutes")(app)
     app.use(express.static(__dirname + '/public'))
     const options = {
         definition: {

@@ -4,6 +4,11 @@ class musicInstrument extends Model {}
 
 musicInstrument.init(
     {
+        id:{
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
         instrumentId:{
             type: DataTypes.INTEGER,
             allowNull:false,

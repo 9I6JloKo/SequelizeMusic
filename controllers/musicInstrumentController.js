@@ -33,22 +33,22 @@ exports.findAll = (req,res) => {
         })
     })
 }
-// добавить ид в таблицу связную итогда продолжать
 exports.change = async (req,res) => {
-    if (!req.body.id || !req.body.typeName) {
+    if (!req.body.id || !req.body.instrumentId || !req.body.musicId) {
         res.status(400).send({
             message: "sth is not defined"
         })
         return
     }
-    let instrumentTypeChar = await InstrumentType.findOne({
+    let instrumentMusicChar = await MusicInstrument.findOne({
         where: {id: req.body.id}
     })
-    if(instrumentTypeChar != null){
-        const instrumentType = {
-            typeName: req.body.typeName
+    if(instrumentMusicChar != null){
+        const instrumentMusic = {
+            instrumentId: req.body.instrumentId,
+            musicId: req.body.musicId
         }
-        await InstrumentType.update(instrumentType,{
+        await MusicInstrument.update(instrumentMusic,{
             where: {id: req.body.id}
         })
         .then(data => {
@@ -72,48 +72,28 @@ exports.delete = async (req,res) => {
     const id = {
         id: req.params.id
     }
-    let instrumentTypeChar = await InstrumentType.findOne({
+    let instrumentMusicChar = await MusicInstrument.findOne({
         where: id
     })
     
-    if(instrumentTypeChar != null){
-        let instrumentChar = await Instrument.findAll({
-            where: {typeOfInstrument: req.params.id},
-            attributes: [
-                "id"
-            ]
-        })
-        if(instrumentChar != null){
-            for(let i; i<instrumentChar.length;i++){
-                let instrumentMusic = await MusicInstrument.findAll({
-                    where: {instrumentId: instrumentChar[i].id}
-                })
-                if(instrumentMusic != null){
-                    await MusicInstrument.destroy({
-                        where: {instrumentId: instrumentChar[i].id}
-                    })
-                }
-            }
-            await Instrument.destroy({
-                where: {typeOfInstrument: req.params.id}
-            })
-        }
-        await InstrumentType.destroy({
+    if(instrumentMusicChar != null){
+        await MusicInstrument.destroy({
             where: id
         })
         .then(
             res.status(200).send({
-                message: `InstrumentType ${req.params.id} deleted!`
+                message: `MusicInstrument
+                 ${req.params.id} deleted!`
             }))
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occured while retrieving categories"
+                    err.message || "Some error occured while retrieving MusicInstrument"
             })
         })
     }else{
         res.status(200).send({
-            message: `InstrumentType ${req.params.id} cannot be deleted!`
+            message: `MusicInstrument ${req.params.id} cannot be deleted!`
         })
     }
 }

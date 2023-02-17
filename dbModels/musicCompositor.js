@@ -4,6 +4,11 @@ class musicCompositor extends Model {}
 
 musicCompositor.init(
     {
+        id:{
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
         compositorId:{
             type: DataTypes.INTEGER,
             allowNull:false,

@@ -4,6 +4,11 @@ class musicGenre extends Model {}
 
 musicGenre.init(
     {
+        id:{
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
         genreId:{
             type: DataTypes.INTEGER,
             allowNull:false,

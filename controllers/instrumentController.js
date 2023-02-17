@@ -1,5 +1,6 @@
 const e = require('express')
 const Instrument = require('../dbModels/instrument')
+const MusicInstrument = require('../dbModels/musicInstrument')
 
 exports.create = (req,res) => {
     if (!req.body.instrumentName || !req.body.typeOfInstrument) {
