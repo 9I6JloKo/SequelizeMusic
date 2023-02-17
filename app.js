@@ -17,12 +17,12 @@ let db = require('./dbCreate/databaseCreate')
 // classicMusic.belongsToMany(instrument, {through: 'musicToInstrument'})
 
 // instrumentType.hasMany(instrument, {
-//     foreignKey: 'typeOfInstrument'
+//     onDelete: "CASCADE"
 // });
-
+// instrument.belongsTo(instrumentType);
 
 async function dataCreate(){
-    await db.sync({force:true}); // force - создать или перезаписать базу с нуля
+    // await db.sync({alter: true}); // force - создать или перезаписать базу с нуля
     // await dbAdd(data);
 
     const express = require("express")
@@ -33,15 +33,18 @@ async function dataCreate(){
     const swaggerJsdoc = require("swagger-jsdoc")
     const swaggerUi = require("swagger-ui-express")
 
-    require("./routes/instrumentRoutes")(app)
+    
 
     app.use(cors());
     // app.use(express.urlencoded({ extended: true}))
     // app.use(express.json())
     
     app.set('view engine', 'ejs')
+    app.use(express.json());
     app.use(bodyParser.urlencoded({limit:"4000mb", extended: true, parameterLimit:5000000}))
     app.use(bodyParser.json({limit:"4000mb"}))
+    require("./routes/instrumentRoutes")(app)
+    require("./routes/instrumentTypeRoutes")(app)
     app.use(express.static(__dirname + '/public'))
     const options = {
         definition: {
@@ -63,7 +66,7 @@ async function dataCreate(){
           },
             servers: [
                 {
-                url: "http://localhost:3002",
+                url: "http://localhost:3000",
                 },
             ],
             },
@@ -76,7 +79,7 @@ async function dataCreate(){
             swaggerUi.serve,
             swaggerUi.setup(specs, { explorer: true }, )
         );
-        const PORT = process.env.PORT || 3002
+        const PORT = process.env.PORT || 3000
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}.`)
         })

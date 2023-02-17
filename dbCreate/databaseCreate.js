@@ -9,6 +9,7 @@ let connection2 = mysql.createConnection({
     if(err) console.log(err);
     else console.log("База данных создана");
 })
+
 connection = new sequelize.Sequelize('sequelizedb','root','',{
     dialect: 'mysql',
     host: 'localhost'

@@ -23,7 +23,8 @@ Instrument.init(
             allowNull:false,
             references: {
                 model: 'instrumentTypes',
-                key: 'id'
+                key: 'id',
+                onDelete: 'CASCADE'
             }
         },
         publishedAt:{
