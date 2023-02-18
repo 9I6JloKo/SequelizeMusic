@@ -46,6 +46,11 @@ async function dataCreate(){
     require("./routes/instrumentRoutes")(app)
     require("./routes/instrumentTypeRoutes")(app)
     require("./routes/musicInstrumentRoutes")(app)
+    require("./routes/musicRoutes")(app)
+    require("./routes/genreRoutes")(app)
+    require("./routes/musicGenreRoutes")(app)
+    require("./routes/compositorRoutes")(app)
+    require("./routes/musicCompositorsRoutes")(app)
     app.use(express.static(__dirname + '/public'))
     const options = {
         definition: {

@@ -1,15 +1,15 @@
 const e = require('express')
-const MusicInstrument = require('../dbModels/musicInstrument')
+const musicGenre = require('../dbModels/musicGenre')
 
 exports.create = (req,res) => {
-    if (!req.body.instrumentId || !req.body.musicId) {
+    if (!req.body.genreId || !req.body.musicId) {
         res.status(400).send({
             message: "sth is not defined"
         })
         return
     }
-    MusicInstrument.findOrCreate({
-        where: {instrumentId: req.body.instrumentId,
+    musicGenre.findOrCreate({
+        where: {genreId: req.body.genreId,
                 musicId: req.body.musicId}})
     .then(data => {
         res.send(data)
@@ -17,19 +17,19 @@ exports.create = (req,res) => {
     .catch(err => {
         res.status(500).send({
             message:
-                err.message || "Some error occured while creating MusicInstrument"
+                err.message || "Some error occured while creating musicGenre"
         })
     })
 }
 exports.findAll = (req,res) => {
-    MusicInstrument.findAll()
+    musicGenre.findAll()
     .then(data => {
         res.send(data)
     })
     .catch(err => {
         res.status(500).send({
             message:
-                err.message || "Some error occured while retrieving MusicInstrument"
+                err.message || "Some error occured while retrieving musicGenre"
         })
     })
 }
@@ -40,15 +40,15 @@ exports.change = async (req,res) => {
         })
         return
     }
-    let instrumentMusicChar = await MusicInstrument.findOne({
+    let musicGenreChar = await musicGenre.findOne({
         where: {id: req.body.id}
     })
-    if(instrumentMusicChar != null){
-        const instrumentMusic = {
-            instrumentId: req.body.instrumentId,
+    if(musicGenreChar != null){
+        const genreMusic = {
+            genreId: req.body.genreId,
             musicId: req.body.musicId
         }
-        await MusicInstrument.update(instrumentMusic,{
+        await musicGenre.update(genreMusic,{
             where: {id: req.body.id}
         })
         .then(data => {
@@ -57,7 +57,7 @@ exports.change = async (req,res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occured while retrieving MusicInstrument"
+                    err.message || "Some error occured while retrieving InstrumentTypes"
             })
         })
     }
@@ -72,27 +72,27 @@ exports.delete = async (req,res) => {
     const id = {
         id: req.params.id
     }
-    let instrumentMusicChar = await MusicInstrument.findOne({
+    let musicGenreChar = await musicGenre.findOne({
         where: id
     })
     
-    if(instrumentMusicChar != null){
-        await MusicInstrument.destroy({
+    if(musicGenreChar != null){
+        await musicGenre.destroy({
             where: id
         })
         .then(
             res.status(200).send({
-                message: `MusicInstrument ${req.params.id} deleted!`
+                message: `musicGenre ${req.params.id} deleted!`
             }))
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occured while retrieving MusicInstrument"
+                    err.message || "Some error occured while retrieving musicGenre"
             })
         })
     }else{
         res.status(200).send({
-            message: `MusicInstrument ${req.params.id} cannot be deleted!`
+            message: `musicGenre ${req.params.id} cannot be deleted!`
         })
     }
 }

@@ -35,7 +35,7 @@ exports.findAll = (req,res) => {
     })
 }
 exports.change = async (req,res) => {
-    if (!req.body.id || !req.body.typeName) {
+    if (!req.body.id) {
         res.status(400).send({
             message: "sth is not defined"
         })
