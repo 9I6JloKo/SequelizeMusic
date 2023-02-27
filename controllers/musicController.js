@@ -1,6 +1,9 @@
 const e = require('express')
 const Music = require('../dbModels/classicMusic')
 const MusicInstrument = require('../dbModels/musicInstrument')
+const musicCompositor = require('../dbModels/musicCompositor')
+const musicGenre = require('../dbModels/musicGenre')
+const linksT = require('../dbModels/link')
 
 exports.create = (req,res) => {
     if (!req.body.title) {
@@ -92,6 +95,30 @@ exports.delete = async (req,res) => {
         if(instrumentMusic != null){
             await MusicInstrument.destroy({
                 where: {musicId: req.params.id}
+            })
+        }
+        let compositorMusic = await musicCompositor.findOne({
+            where: {musicId: req.params.id}
+        })
+        if(compositorMusic != null){
+            await musicCompositor.destroy({
+                where: {musicId: req.params.id}
+            })
+        }
+        let genreMusic = await musicGenre.findOne({
+            where: {musicId: req.params.id}
+        })
+        if(genreMusic != null){
+            await musicGenre.destroy({
+                where: {musicId: req.params.id}
+            })
+        }
+        let links = await linksT.findOne({
+            where: {music_id: req.params.id}
+        })
+        if(links != null){
+            await linksT.destroy({
+                where: {music_id: req.params.id}
             })
         }
         await Music.destroy({
