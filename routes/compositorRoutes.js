@@ -1,10 +1,20 @@
+const { authJwt } = require("../middleware");
+const controller = require("../controllers/user.controller");
+
 module.exports = app => {
+    app.use(function(req, res, next) {
+        res.header(
+          "Access-Control-Allow-Headers",
+          "x-access-token, Origin, Content-Type, Accept"
+        );
+        next();
+      });
     const compositors = require("../controllers/compositorController");
     const router = require("express").Router();
-    router.post("/", compositors.create)
-    router.get("/", compositors.findAll)
-    router.put("/", compositors.change)
-    router.delete("/:id", compositors.delete)
+    router.post("/", [authJwt.verifyToken, authJwt.isAdmin], compositors.create)
+    router.get("/", [authJwt.verifyToken], compositors.findAll)
+    router.put("/", [authJwt.verifyToken, authJwt.isModerator], compositors.change)
+    router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], compositors.delete)
     app.use('/api/compositors', router)
 }
 
