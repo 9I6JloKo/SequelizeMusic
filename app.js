@@ -57,6 +57,7 @@ async function dataCreate(){
   require("./routes/linkRoutes")(app)
   require("./routes/periodRoutes")(app)
   require('./routes/auth.routes')(app);
+  require('./routes/role.routes')(app);
   require('./routes/user.routes')(app);
   app.use(express.static(__dirname + '/public'))
   const options = {
@@ -99,21 +100,20 @@ async function dataCreate(){
   // http://localhost:3000/api-docs
 }
 dataCreate()
-
+// для начального запуска проекта (невозможно выполнить методы без jwt из-за проверки. А для этого нужны роли для создания юзера)
+// сначала запустить код без cоздания ролей, затем вместе с методом создания ролей, затем вновь отключить метод. Снизу запуск
 function initial() {
   Role.create({
-    id: 1,
     name: "user"
   });
  
   Role.create({
-    id: 2,
     name: "moderator"
   });
  
   Role.create({
-    id: 3,
     name: "admin"
   });
 }
-initial()
+// запуск ----
+// initial()

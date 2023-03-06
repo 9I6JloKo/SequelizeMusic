@@ -3,7 +3,7 @@ const Instrument = require('../dbModels/instrument')
 const MusicInstrument = require('../dbModels/musicInstrument')
 
 exports.create = (req,res) => {
-    if (!req.body.instrumentName || !req.body.typeOfInstrument) {
+    if (!req.body.instrumentName || !req.body.typeOfInstrument || !req.body.pictureInstrument || !req.body.publishedAt) {
         res.status(400).send({
             message: "sth is not defined"
         })

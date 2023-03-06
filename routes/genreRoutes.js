@@ -11,7 +11,7 @@ module.exports = app => {
     const genres = require("../controllers/genreController");
     const router = require("express").Router();
     router.post("/", [authJwt.verifyToken, authJwt.isAdmin], genres.create)
-    router.get("/", [authJwt.verifyToken], genres.findAll)
+    router.get("/", genres.findAll)
     router.put("/", [authJwt.verifyToken, authJwt.isModerator], genres.change)
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], genres.delete)
     app.use('/api/genres', router)

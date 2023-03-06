@@ -12,7 +12,7 @@ module.exports = app => {
     const compositors = require("../controllers/compositorController");
     const router = require("express").Router();
     router.post("/", [authJwt.verifyToken, authJwt.isAdmin], compositors.create)
-    router.get("/", [authJwt.verifyToken], compositors.findAll)
+    router.get("/", compositors.findAll)
     router.put("/", [authJwt.verifyToken, authJwt.isModerator], compositors.change)
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], compositors.delete)
     app.use('/api/compositors', router)

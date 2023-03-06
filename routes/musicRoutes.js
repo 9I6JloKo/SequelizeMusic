@@ -1,5 +1,4 @@
 const { authJwt } = require("../middleware");
-const controller = require("../controllers/user.controller");
 module.exports = app => {
     app.use(function(req, res, next) {
         res.header(
@@ -11,7 +10,7 @@ module.exports = app => {
     const musics = require("../controllers/musicController");
     const router = require("express").Router();
     router.post("/", [authJwt.verifyToken, authJwt.isAdmin], musics.create)
-    router.get("/", [authJwt.verifyToken], musics.findAll)
+    router.get("/", musics.findAll)
     router.put("/", [authJwt.verifyToken, authJwt.isModerator], musics.change)
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], musics.delete)
     app.use('/api/musics/', router)

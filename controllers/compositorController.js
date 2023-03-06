@@ -92,7 +92,7 @@ exports.delete = async (req,res) => {
     
     if(CompositorChar != null){
         let compositorMusic = await MusicCompositor.findOne({
-            where: {genreId: req.params.id}
+            where: {compositorId: req.params.id}
         })
         if(compositorMusic != null){
             await MusicCompositor.destroy({
