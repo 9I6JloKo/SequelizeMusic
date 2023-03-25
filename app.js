@@ -8,6 +8,7 @@ let instrumentType = require('./dbModels/instrumentType')
 let ia = require('./dbModels/musicCompositor')
 let ibe = require('./dbModels/musicInstrument')
 let ide = require('./dbModels/musicGenre')
+// let ru = require('./dbModels/roleUser')
 let db = require('./dbCreate/databaseCreate')
 const db2 = require("./dbModels");
 const Role = db2.role;

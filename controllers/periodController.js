@@ -91,41 +91,46 @@ exports.delete = async (req,res) => {
             ]
         })
         if(musicChar != null){
-            for(let i; i<musicChar.length;i++){
-                let instrumentMusic = await MusicInstrument.findAll({
-                    where: {musicId: musicChar[i].id}
-                })
-                if(instrumentMusic != null){
-                    await MusicInstrument.destroy({
-                        where: {musicId: musicChar[i].id}
-                    })
-                }
-                let genreMusic = await musicGenre.findAll({
-                    where: {musicId: musicChar[i].id}
-                })
-                if(genreMusic != null){
-                    await musicGenre.destroy({
-                        where: {musicId: musicChar[i].id}
-                    })
-                }
-                let compositorMusic = await musicCompositor.findAll({
-                    where: {musicId: musicChar[i].id}
-                })
-                if(compositorMusic != null){
-                    await musicCompositor.destroy({
-                        where: {musicId: musicChar[i].id}
-                    })
-                }
-                let linksMusic = await linksT.findAll({
-                    where: {music_id: musicChar[i].id}
-                })
-                if(linksMusic != null){
-                    await linksT.destroy({
-                        where: {music_id: musicChar[i].id}
-                    })
-                }
-            }
-            await Music.destroy({
+            // for(let i; i<musicChar.length;i++){
+            //     let instrumentMusic = await MusicInstrument.findAll({
+            //         where: {musicId: musicChar[i].id}
+            //     })
+            //     if(instrumentMusic != null){
+            //         await MusicInstrument.destroy({
+            //             where: {musicId: musicChar[i].id}
+            //         })
+            //     }
+            //     let genreMusic = await musicGenre.findAll({
+            //         where: {musicId: musicChar[i].id}
+            //     })
+            //     if(genreMusic != null){
+            //         await musicGenre.destroy({
+            //             where: {musicId: musicChar[i].id}
+            //         })
+            //     }
+            //     let compositorMusic = await musicCompositor.findAll({
+            //         where: {musicId: musicChar[i].id}
+            //     })
+            //     if(compositorMusic != null){
+            //         await musicCompositor.destroy({
+            //             where: {musicId: musicChar[i].id}
+            //         })
+            //     }
+            //     let linksMusic = await linksT.findAll({
+            //         where: {music_id: musicChar[i].id}
+            //     })
+            //     if(linksMusic != null){
+            //         await linksT.destroy({
+            //             where: {music_id: musicChar[i].id}
+            //         })
+            //     }
+            // }
+            // await Music.delete({
+            //     where: {period_id: req.params.id}
+            // })
+            await Music.update({
+                period_id: null,
+            },{
                 where: {period_id: req.params.id}
             })
         }

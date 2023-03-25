@@ -21,78 +21,152 @@ module.exports = app => {
 * @swagger
 * components:
 *  schemas:
-*      Instrument:
+*      Genre:
 *          type: object
 *          required:
-*              - instrumentName
+*              - genre_name
+*              - descGenre
 *          properties:
-*              instrumentName:
+*              genre_name:
 *                  type: string
-*                  description: Name of instrument
+*                  description: Name of Genre
+*              descGenre:
+*                  type: string
+*                  description: lastName of Genre
+*              publishedAt:
+*                  type: date
+*                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+*                  description: publishedAt of Genre
 *          example:
-*              instrumentName: Piano
+*              genre_name: Alex
+*              descGenre: Puwkin
+*              publishedAt: "2019-05-17"
+*/
+
+/**
+* @swagger
+* components:
+*  schemas:
+*      GenrePut:
+*          type: object
+*          required:
+*              - id
+*              - genre_name
+*              - descGenre
+*          properties:
+*              id:
+*                  type: integer
+*                  description: id of Genre
+*              genre_name:
+*                  type: string
+*                  description: Name of Genre
+*              descGenre:
+*                  type: string
+*                  description: lastName of Genre
+*              publishedAt:
+*                  type: date
+*                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+*                  description: publishedAt of Genre
+*          example:
+*              id: 1
+*              genre_name: Alex
+*              descGenre: Puwkin
+*              publishedAt: "2019-05-17"
 */
 
 /**
  * 
  * @swagger
  * tags:
- *   name: Instruments
- *   description: The Instruments managing API
- * /api/instruments:
+ *   name: Genres
+ *   description: The Genres managing API
+ * /api/genres:
  *  get:
- *      summary: Retrieve a list of instrument.
- *      description: Retrieve a list of instrument.
- *      tags: [Instruments]
+ *      summary: Retrieve a list of Genre.
+ *      description: Retrieve a list of Genre.
+ *      tags: [Genres]
  *      responses:
  *          200:
- *              description: A list of instrument.
+ *              description: A list of Genre.
  *              content:
  *                  application/json:
  *                      schema:
- *                          $ref: '#/components/schemas/Instrument'
- *                          properties:
- *                              data:
- *                                  type: array
- *                                  items:
- *                                      type: object
- *                                      properties:
- *                                          id:
- *                                              type: integer
- *                                              description: The instrument ID.
- *                                              example: 1
- *                                          instrumentName:
- *                                              type: string
- *                                              description: The instrument's name.
- *                                              example: RESTful API
+ *                          $ref: '#/components/schemas/Genre'
  *                                  
  */
 
 /**
  * @swagger
- * tags:
- *   name: Instruments
- *   description: The Instruments managing API
- * /api/instruments:
+ * /api/genres:
  *   post:
- *     summary: Create a new Instrument
- *     description: Retrieve a list of categories.
- *     tags: [Instruments]
+ *     summary: Create a new Genre
+ *     description: Retrieve a list of Genre.
+ *     tags: [Genres]
+ *     parameters:
+ *       - $ref: '#components/parameters/AccessToken'
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Instrument'
+ *             $ref: '#/components/schemas/Genre'
  *     responses:
  *       200:
- *         description: The created Instrument.
+ *         description: The created Genre.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Instrument'
+ *               $ref: '#/components/schemas/Genre'
  *       500:
  *         description: Some server error
  *
  */
 
+/**
+ * @swagger
+ * /api/genres:
+ *   put:
+ *     summary: change an Genre
+ *     description: change an Genre
+ *     tags: [Genres]
+ *     parameters:
+ *        - $ref: '#components/parameters/AccessToken'
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/GenrePut'
+ *     responses:
+ *       200:
+ *         description: Changed SUCCESSFULLY.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/GenrePut'
+ *       500:
+ *         description: Some server error
+ *
+ */
+
+/**
+ * @swagger
+ * /api/genres/{GenreId}:
+ *  delete:
+ *      summary: delete an Genre
+ *      description: delete an Genre
+ *      tags: [Genres]
+ *      parameters:
+ *        - $ref: '#components/parameters/AccessToken'
+ *        - in: path
+ *          name: GenreId
+ *          schema:
+ *              type: integer
+ *          required: true
+ *          description: integer id of Genre to delete
+ *      responses:
+ *          200:
+ *              description: Genre that was deleted
+ *          400:
+ *              description: Some server error
+*/
