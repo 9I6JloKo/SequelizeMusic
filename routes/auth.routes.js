@@ -45,7 +45,6 @@ module.exports = function(app) {
 *                  items:
 *                      type: string
 *                      description: The instrument's name.
-*                      example: "admin"
 *              username:
 *                  type: string
 *                  description: username of User
@@ -59,7 +58,7 @@ module.exports = function(app) {
 *              username: Piano
 *              email: Piano@mail.ru
 *              password: Piano123
-*              roles: ["admin"]
+*              roles: ["moderator", "admin"]
 */
 
 /**
@@ -106,6 +105,7 @@ module.exports = function(app) {
 *              - id
 *              - username
 *              - password
+*              - email
 *          properties:
 *              id:
 *                  type: integer
@@ -116,10 +116,14 @@ module.exports = function(app) {
 *              password:
 *                  type: string
 *                  description: password user
+*              email:
+*                  type: string
+*                  description: email user
 *          example:
 *              id: 1
 *              username: Piano
 *              password: Piano123
+*              email: Piano@mail.ru
 */
 
 /**

@@ -108,17 +108,30 @@ exports.change = async (req,res) => {
       where: {id: req.body.id}
   })
   if(UserChar != null){
-      const user = {
+      const userElem = {
           username: req.body.username,
-          password: req.body.password,
+          password: bcrypt.hashSync(req.body.password, 8),
           email: req.body.email
       }
-      await User.update(user,{
+      await User.update(userElem,{
           where: {id: req.body.id}
       })
-      .then(data => {
-          res.send(data)
-      })
+      // .then(data => {
+      //     res.send(data)
+      //     if (req.body.roles) {
+      //       Role.findAll({
+      //         where: {
+      //           name: {
+      //             [Op.or]: req.body.roles
+      //           }
+      //         }
+      //     }).then(roles => {
+      //       data.setRoles(roles).then(() => {
+      //         res.send({ message: "User registered successfully!" });
+      //       });
+      //     });
+      //   };
+      // })
       .catch(err => {
           res.status(500).send({
               message:
