@@ -97,6 +97,41 @@ exports.findAll = (req,res) => {
       })
   })
 }
+
+exports.findByLogin = async (req,res) => {
+    User.findAll({
+      where: {
+        username: {[Op.like]: `%${req.params.username}%`}
+      }
+    })
+    .then(data => {
+        res.send(data)
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occured while retrieving instruments"
+        })
+    })
+}
+
+exports.findByEmail = async (req,res) => {
+  User.findAll({
+    where: {
+      email: {[Op.like]: `%${req.params.email}%`}
+    }
+  })
+  .then(data => {
+      res.send(data)
+  })
+  .catch(err => {
+      res.status(500).send({
+          message:
+              err.message || "Some error occured while retrieving instruments"
+      })
+  })
+}
+
 exports.change = async (req,res) => {
   if (!req.body.id) {
       res.status(400).send({
@@ -116,6 +151,12 @@ exports.change = async (req,res) => {
       await User.update(userElem,{
           where: {id: req.body.id}
       })
+      .catch(err => {
+          res.status(500).send({
+              message:
+                  err.message || "Some error occured while retrieving categories"
+          })
+      })
       // .then(data => {
       //     res.send(data)
       //     if (req.body.roles) {
@@ -132,12 +173,11 @@ exports.change = async (req,res) => {
       //     });
       //   };
       // })
-      .catch(err => {
-          res.status(500).send({
-              message:
-                  err.message || "Some error occured while retrieving categories"
-          })
-      })
+  }else{
+    res.status(500).send({
+      message:
+          "Id is not defined"
+    })
   }
 }
 exports.delete = async (req,res) => {

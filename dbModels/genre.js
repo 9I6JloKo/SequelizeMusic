@@ -12,7 +12,8 @@ Genre.init(
         },
         genre_name:{
             type: DataTypes.STRING(100),
-            allowNull:false
+            allowNull:false,
+            unique: true
         },
         descGenre:{
             type: DataTypes.STRING(1000),

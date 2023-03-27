@@ -1,9 +1,11 @@
 const e = require('express')
+const {Op} = require('sequelize')
 const Music = require('../dbModels/classicMusic')
 const MusicInstrument = require('../dbModels/musicInstrument')
 const musicCompositor = require('../dbModels/musicCompositor')
 const musicGenre = require('../dbModels/musicGenre')
 const linksT = require('../dbModels/link')
+const Genre = require('../dbModels/genre')
 
 exports.create = (req,res) => {
     if (!req.body.title) {
@@ -44,6 +46,74 @@ exports.findAll = (req,res) => {
         })
     })
 }
+
+exports.findByName = async (req,res) => {
+    Music.findAll({
+      where: {
+        title: {[Op.like]: `%${req.params.title}%`}
+      }
+    })
+    .then(data => {
+        res.send(data)
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occured while retrieving instruments"
+        })
+    })
+}
+
+exports.findByGenre = async (req,res) => {
+    console.log(req.params.genrename);
+    if(!req.params.genrename || req.params.genrename == "null"){
+        let musicIds = await musicGenre.findAll({
+            attributes: ['musicId']
+          })
+        await Music.findAll({
+            where: {
+            id: {[Op.notIn]: musicIds}
+            }
+        })
+        .then(data => {
+            res.send(data)
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occured while retrieving instruments"
+            })
+        })
+    }else{
+        let genresIds = await Genre.findAll({
+            attributes: ['id'],
+            where: {
+            genre_name: {[Op.like]: `%${req.params.genrename}%`}
+            }
+        })
+        let musicIds = await musicGenre.findAll({
+            attributes: ['musicId'],
+            where: {
+              musicId: {[Op.in]: genresIds}
+            }
+          })
+          await Music.findAll({
+              where: {
+              id: {[Op.in]: musicIds}
+              }
+          })
+          .then(data => {
+              res.send(data)
+          })
+          .catch(err => {
+              res.status(500).send({
+                  message:
+                      err.message || "Some error occured while retrieving instruments"
+              })
+          })
+        }
+}
+
 exports.change = async (req,res) => {
     if (!req.body.id) {
         res.status(400).send({

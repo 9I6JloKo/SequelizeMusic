@@ -13,6 +13,7 @@ Instrument.init(
         instrumentName:{
             type: DataTypes.STRING(100),
             allowNull:false,
+            unique: true
         },
         pictureInstrument:{
             type: DataTypes.STRING(1000),

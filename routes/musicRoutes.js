@@ -14,6 +14,9 @@ module.exports = app => {
     router.put("/", [authJwt.verifyToken, authJwt.isModerator], musics.change)
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], musics.delete)
     app.use('/api/musics', router)
+
+    router.get("/findByGenre/:genrename", musics.findByGenre)
+    app.use('/api/musics/findByGenre', router)
 }
 
 
@@ -30,7 +33,7 @@ module.exports = app => {
 *                  type: string
 *                  description: title of Music
 *              period_id :
-*                  type: integer
+*                  type: ['null', integer]
 *                  description: period_id of Music
 *              publishedAt:
 *                  type: date
@@ -38,7 +41,7 @@ module.exports = app => {
 *                  description: publishedAt of Music
 *          example:
 *              title: "Mozart song"
-*              period_id: 1
+*              period_id: null
 *              publishedAt: "2019-05-17"
 */
 
@@ -72,6 +75,33 @@ module.exports = app => {
 *              publishedAt: "2019-05-17"
 */
 
+
+/**
+ * @swagger
+ * /api/musics/findByGenre/{genreName}:
+ *  get:
+ *      summary: get a Music by genre
+ *      description: get a Music
+ *      tags: [Musics]
+ *      parameters:
+ *        - $ref: '#components/parameters/AccessToken'
+ *        - in: path
+ *          name: genreName
+ *          schema:
+ *              type: string
+ *              example: 'null'
+ *          description: genreName of Music to get
+ *          required: true
+ *      responses:
+ *          200:
+ *              description: A list of Music.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/Music'
+ *          400:
+ *              description: Some server error
+*/
 
 /**
  * 

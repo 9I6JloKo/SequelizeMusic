@@ -12,7 +12,8 @@ Period.init(
         },
         period_name:{
             type: DataTypes.STRING(100),
-            allowNull:false
+            allowNull:false,
+            unique: true
         },
         desc:{
             type: DataTypes.STRING(1000),

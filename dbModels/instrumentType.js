@@ -13,6 +13,7 @@ InstrumentType.init(
         typeName:{
             type: DataTypes.STRING(100),
             allowNull:false,
+            unique: true
         },
     },
     {

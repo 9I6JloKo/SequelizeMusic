@@ -21,11 +21,17 @@ module.exports = function(app) {
 
   app.post("/api/auth/signin", controller.signin);
   const users = require("../controllers/auth.controller");
-    const router = require("express").Router();
-    router.get("/", [authJwt.verifyToken, authJwt.isAdmin], users.findAll)
-    router.put("/", [authJwt.verifyToken, authJwt.isModerator], users.change)
-    router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], users.delete)
-    app.use('/api/users', router)
+  const router = require("express").Router();
+  router.get("/", [authJwt.verifyToken, authJwt.isAdmin], users.findAll)
+  router.put("/", [authJwt.verifyToken, authJwt.isModerator], users.change)
+  router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], users.delete)
+  app.use('/api/users', router)
+
+  router.get("/getUsername/:username", [authJwt.verifyToken, authJwt.isAdmin], users.findByLogin)
+  app.use('/api/users/getUsername', router)
+  
+  router.get("/getEmail/:email", [authJwt.verifyToken, authJwt.isAdmin], users.findByEmail)
+  app.use('/api/users/getEmail', router)
 };
 
 
@@ -124,6 +130,58 @@ module.exports = function(app) {
 *              username: Piano
 *              password: Piano123
 *              email: Piano@mail.ru
+*/
+
+/**
+ * @swagger
+ * /api/users/getUsername/{username}:
+ *  get:
+ *      summary: get a User by username
+ *      description: get a User
+ *      tags: [Users]
+ *      parameters:
+ *        - $ref: '#components/parameters/AccessToken'
+ *        - in: path
+ *          name: username
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: username of user to get
+ *      responses:
+ *          200:
+ *              description: A list of Users.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/User'
+ *          400:
+ *              description: Some server error
+*/
+
+/**
+ * @swagger
+ * /api/users/getEmail/{email}:
+ *  get:
+ *      summary: get a User by email
+ *      description: get a User
+ *      tags: [Users]
+ *      parameters:
+ *        - $ref: '#components/parameters/AccessToken'
+ *        - in: path
+ *          name: email
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: email of user to get
+ *      responses:
+ *          200:
+ *              description: A list of Users.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/User'
+ *          400:
+ *              description: Some server error
 */
 
 /**

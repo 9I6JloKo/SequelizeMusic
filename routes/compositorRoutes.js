@@ -161,7 +161,7 @@ module.exports = app => {
 
 /**
  * @swagger
- * /api/Compositors:
+ * /api/compositors:
  *   put:
  *     summary: change an Compositor
  *     description: change an Compositor
@@ -188,7 +188,7 @@ module.exports = app => {
 
 /**
  * @swagger
- * /api/Compositors/{CompositorId}:
+ * /api/compositors/{CompositorId}:
  *  delete:
  *      summary: delete an Compositor
  *      description: delete an Compositor
