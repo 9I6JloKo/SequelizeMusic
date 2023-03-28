@@ -10,7 +10,7 @@ module.exports = app => {
     const instruments = require("../controllers/instrumentController");
     const router = require("express").Router();
     router.post("/", [authJwt.verifyToken, authJwt.isAdmin], instruments.create)
-    router.get("/", instruments.findAll)
+    router.get("/", instruments.findAllWithType)
     router.put("/", [authJwt.verifyToken, authJwt.isModerator], instruments.change)
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], instruments.delete)
     app.use('/api/instruments', router)
@@ -47,6 +47,7 @@ module.exports = app => {
 *              typeOfInstrument: 1
 *              publishedAt: "2019-05-17"
 */
+
 
 /**
 * @swagger

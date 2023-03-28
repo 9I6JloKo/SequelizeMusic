@@ -1,6 +1,7 @@
 const {Sequelize,DataTypes,Model} = require('sequelize');
 const db = require('../dbCreate/databaseCreate')
 class Instrument extends Model {}
+const InstrumentType = require('../dbModels/instrumentType')
 
 Instrument.init(
     {
@@ -13,7 +14,7 @@ Instrument.init(
         instrumentName:{
             type: DataTypes.STRING(100),
             allowNull:false,
-            unique: true
+            // unique: true
         },
         pictureInstrument:{
             type: DataTypes.STRING(1000),
@@ -38,6 +39,7 @@ Instrument.init(
         timestamps:false,
         modelName: 'instruments',
     },
+    // Instrument.hasOne(InstrumentType, {foreignKey: 'id',sourceKey: 'typeOfInstrument'})
 )
 
 module.exports = Instrument

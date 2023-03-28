@@ -47,7 +47,7 @@ exports.findAll = (req,res) => {
     })
 }
 
-exports.findByName = async (req,res) => {
+exports.findByTitle = async (req,res) => {
     Music.findAll({
       where: {
         title: {[Op.like]: `%${req.params.title}%`}
@@ -64,55 +64,67 @@ exports.findByName = async (req,res) => {
     })
 }
 
-exports.findByGenre = async (req,res) => {
-    console.log(req.params.genrename);
-    if(!req.params.genrename || req.params.genrename == "null"){
-        let musicIds = await musicGenre.findAll({
-            attributes: ['musicId']
-          })
-        await Music.findAll({
-            where: {
-            id: {[Op.notIn]: musicIds}
-            }
-        })
-        .then(data => {
-            res.send(data)
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occured while retrieving instruments"
-            })
-        })
-    }else{
-        let genresIds = await Genre.findAll({
-            attributes: ['id'],
-            where: {
-            genre_name: {[Op.like]: `%${req.params.genrename}%`}
-            }
-        })
-        let musicIds = await musicGenre.findAll({
-            attributes: ['musicId'],
-            where: {
-              musicId: {[Op.in]: genresIds}
-            }
-          })
-          await Music.findAll({
-              where: {
-              id: {[Op.in]: musicIds}
-              }
-          })
-          .then(data => {
-              res.send(data)
-          })
-          .catch(err => {
-              res.status(500).send({
-                  message:
-                      err.message || "Some error occured while retrieving instruments"
-              })
-          })
-        }
-}
+// exports.findByGenre = async (req,res) => {
+//     console.log(req.params.genrename);
+//     if(!req.params.genrename || req.params.genrename == "null"){
+//         let musicIds = await musicGenre.findAll({
+//             attributes: ['musicId']
+//           })
+//         await Music.findAll({
+//             where: {
+//                 id: {[Op.notIn]: musicIds}
+//             }
+//         })
+//         .then(data => {
+//             res.send(data)
+//         })
+//         .catch(err => {
+//             res.status(500).send({
+//                 message:
+//                 err.message || "Some error occured while retrieving instruments"
+//             })
+//         })
+//     }else{
+//         let genresIds = await Genre.findAll({
+//             attributes: ['id'],
+//             where: {
+//                 genre_name: {[Op.like]: `%${req.params.genrename}%`}
+//             }
+//         })
+//         let musicIds = await musicGenre.findAll({
+//             attributes: ['musicId'],
+//             where: {
+//                 genreId: {[Op.in]: genresIds}
+//             }
+//         })
+//         console.log(musicIds);
+//           await Music.findAll({
+//             where: {
+//             id: {[Op.in]: musicIds['musicId']}
+//             },
+//             include: [{
+//                 model: musicGenre,
+//                 required: true
+//             }],
+//             // include: [{
+//             //     model: Genre,
+//             //     attributes: [],
+//             //     where: {
+//             //         musicId: {[Op.notIn]: musicIds}
+//             //     },
+//             // }]
+//           })
+//           .then(data => {
+//               res.send(data)
+//           })
+//           .catch(err => {
+//               res.status(500).send({
+//                   message:
+//                       err.message || "Some error occured while retrieving instruments"
+//               })
+//           })
+//         }
+// }
 
 exports.change = async (req,res) => {
     if (!req.body.id) {

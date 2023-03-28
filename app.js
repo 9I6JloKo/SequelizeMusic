@@ -11,13 +11,15 @@ let ide = require('./dbModels/musicGenre')
 // let ru = require('./dbModels/roleUser')
 let db = require('./dbCreate/databaseCreate')
 const db2 = require("./dbModels");
+const musicGenre = require('./dbModels/musicGenre')
 const Role = db2.role;
 
 // classicMusic.belongsToMany(compositor, {through: 'musicToCompositor'})
 // compositor.belongsToMany(classicMusic, {through: 'musicToCompositor'})
 // instrument.belongsToMany(classicMusic, {through: 'musicToInstrument'})
 // classicMusic.belongsToMany(instrument, {through: 'musicToInstrument'})
-
+instrument.belongsTo(instrumentType, {foreignKey: 'typeOfInstrument'});
+musicGenre.belongsTo(classicMusic, {foreignKey: 'musicId'});
 // instrumentType.hasMany(instrument, {
 //     onDelete: "CASCADE"
 // });

@@ -15,8 +15,10 @@ module.exports = app => {
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], musics.delete)
     app.use('/api/musics', router)
 
-    router.get("/findByGenre/:genrename", musics.findByGenre)
-    app.use('/api/musics/findByGenre', router)
+    // router.get("/findByGenre/:genrename", musics.findByGenre)
+    // app.use('/api/musics/findByGenre', router)
+    router.get("/findByTitle/:title", musics.findByTitle)
+    app.use('/api/musics/findByTitle', router)
 }
 
 
@@ -76,21 +78,46 @@ module.exports = app => {
 */
 
 
+// /**
+//  * @swagger
+//  * /api/musics/findByGenre/{genreName}:
+//  *  get:
+//  *      summary: get a Music by genre
+//  *      description: get a Music
+//  *      tags: [Musics]
+//  *      parameters:
+//  *        - $ref: '#components/parameters/AccessToken'
+//  *        - in: path
+//  *          name: genreName
+//  *          schema:
+//  *              type: string
+//  *              example: 'null'
+//  *          description: genreName of Music to get
+//  *          required: true
+//  *      responses:
+//  *          200:
+//  *              description: A list of Music.
+//  *              content:
+//  *                  application/json:
+//  *                      schema:
+//  *                          $ref: '#/components/schemas/Music'
+//  *          400:
+//  *              description: Some server error
+// */
 /**
  * @swagger
- * /api/musics/findByGenre/{genreName}:
+ * /api/musics/findByTitle/{title}:
  *  get:
- *      summary: get a Music by genre
+ *      summary: get a Music by Title
  *      description: get a Music
  *      tags: [Musics]
  *      parameters:
  *        - $ref: '#components/parameters/AccessToken'
  *        - in: path
- *          name: genreName
+ *          name: title
  *          schema:
  *              type: string
- *              example: 'null'
- *          description: genreName of Music to get
+ *          description: Title of Music to get
  *          required: true
  *      responses:
  *          200:

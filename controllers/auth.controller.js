@@ -151,6 +151,9 @@ exports.change = async (req,res) => {
       await User.update(userElem,{
           where: {id: req.body.id}
       })
+      .then(data => {
+        res.send(data)
+      })
       .catch(err => {
           res.status(500).send({
               message:
