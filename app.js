@@ -7,7 +7,6 @@ let link = require('./dbModels/link')
 let instrumentType = require('./dbModels/instrumentType')
 let ia = require('./dbModels/musicCompositor')
 let ibe = require('./dbModels/musicInstrument')
-let ide = require('./dbModels/musicGenre')
 // let ru = require('./dbModels/roleUser')
 let db = require('./dbCreate/databaseCreate')
 const db2 = require("./dbModels");
@@ -19,7 +18,18 @@ const Role = db2.role;
 // instrument.belongsToMany(classicMusic, {through: 'musicToInstrument'})
 // classicMusic.belongsToMany(instrument, {through: 'musicToInstrument'})
 instrument.belongsTo(instrumentType, {foreignKey: 'typeOfInstrument'});
+
+classicMusic.belongsTo(period, {foreignKey: 'period_id'});
+
+ia.belongsTo(compositor, {foreignKey: 'compositorId'});
+ia.belongsTo(classicMusic, {foreignKey: 'musicId'});
+
+ibe.belongsTo(instrument, {foreignKey: 'instrumentId'});
+ibe.belongsTo(classicMusic, {foreignKey: 'musicId'});
+
+musicGenre.belongsTo(genre, {foreignKey: 'genreId'});
 musicGenre.belongsTo(classicMusic, {foreignKey: 'musicId'});
+
 // instrumentType.hasMany(instrument, {
 //     onDelete: "CASCADE"
 // });

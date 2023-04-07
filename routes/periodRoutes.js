@@ -41,8 +41,8 @@ module.exports = app => {
 *                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
 *                  description: endDate of Period
 *          example:
-*              period_name: Alex
-*              desc: Puwkin
+*              period_name: MidAges
+*              desc: MidAges
 *              startDate: "2019-05-17"
 *              endDate: "2020-05-17"
 */
@@ -77,8 +77,8 @@ module.exports = app => {
 *                  description: endDate of Period
 *          example:
 *              id: 1
-*              period_name: Alex
-*              desc: Puwkin
+*              period_name: MidAges
+*              desc: MidAges
 *              startDate: "2019-05-17"
 *              endDate: "2020-05-17"
 */

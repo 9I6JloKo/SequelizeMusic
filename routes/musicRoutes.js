@@ -10,7 +10,7 @@ module.exports = app => {
     const musics = require("../controllers/musicController");
     const router = require("express").Router();
     router.post("/", [authJwt.verifyToken, authJwt.isAdmin], musics.create)
-    router.get("/", musics.findAll)
+    router.get("/", musics.findAllWithPeriod)
     router.put("/", [authJwt.verifyToken, authJwt.isModerator], musics.change)
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], musics.delete)
     app.use('/api/musics', router)
@@ -43,7 +43,7 @@ module.exports = app => {
 *                  description: publishedAt of Music
 *          example:
 *              title: "Mozart song"
-*              period_id: null
+*              period_id: 1
 *              publishedAt: "2019-05-17"
 */
 

@@ -1,11 +1,12 @@
 const e = require('express')
 const {Op} = require('sequelize')
 const Music = require('../dbModels/classicMusic')
+const Genre = require('../dbModels/genre')
 const MusicInstrument = require('../dbModels/musicInstrument')
 const musicCompositor = require('../dbModels/musicCompositor')
 const musicGenre = require('../dbModels/musicGenre')
+const periodMusic = require('../dbModels/period')
 const linksT = require('../dbModels/link')
-const Genre = require('../dbModels/genre')
 
 exports.create = (req,res) => {
     if (!req.body.title) {
@@ -46,7 +47,23 @@ exports.findAll = (req,res) => {
         })
     })
 }
-
+exports.findAllWithPeriod = (req,res) => {
+    Music.findAll({
+        include: [{
+            model: periodMusic,
+            required: false
+        }]
+    })
+    .then(data => {
+        res.send(data)
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occured while retrieving instruments"
+        })
+    })
+}
 exports.findByTitle = async (req,res) => {
     Music.findAll({
       where: {

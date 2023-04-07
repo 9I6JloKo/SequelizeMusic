@@ -10,7 +10,7 @@ module.exports = app => {
     const genreMusic = require("../controllers/musicGenreController");
     const router = require("express").Router();
     router.post("/", [authJwt.verifyToken, authJwt.isAdmin], genreMusic.create)
-    router.get("/", genreMusic.findAll)
+    router.get("/", genreMusic.findAllMusicAndGenre)
     router.put("/", [authJwt.verifyToken, authJwt.isModerator], genreMusic.change)
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], genreMusic.delete)
     app.use('/api/genreMusics', router)

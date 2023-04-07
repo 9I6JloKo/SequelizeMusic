@@ -1,5 +1,7 @@
 const e = require('express')
 const MusicInstrument = require('../dbModels/musicInstrument')
+const Music = require('../dbModels/classicMusic')
+const Instrument = require('../dbModels/instrument')
 
 exports.create = (req,res) => {
     if (!req.body.instrumentId || !req.body.musicId) {
@@ -30,6 +32,27 @@ exports.findAll = (req,res) => {
         res.status(500).send({
             message:
                 err.message || "Some error occured while retrieving MusicInstrument"
+        })
+    })
+}
+exports.findAllMusicAndInstrument= (req,res) => {
+    MusicInstrument.findAll({
+        include: [{
+            model: Music,
+            required: false
+        },
+        {
+            model: Instrument,
+            required: false
+        }]
+    })
+    .then(data => {
+        res.send(data)
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Some error occured while retrieving instruments"
         })
     })
 }

@@ -38,8 +38,8 @@ module.exports = app => {
 *                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
 *                  description: publishedAt of Genre
 *          example:
-*              genre_name: Alex
-*              descGenre: Puwkin
+*              genre_name: classic
+*              descGenre: Important Info
 *              publishedAt: "2019-05-17"
 */
 
@@ -69,8 +69,8 @@ module.exports = app => {
 *                  description: publishedAt of Genre
 *          example:
 *              id: 1
-*              genre_name: Alex
-*              descGenre: Puwkin
+*              genre_name: classic
+*              descGenre: Important Info
 *              publishedAt: "2019-05-17"
 */
 

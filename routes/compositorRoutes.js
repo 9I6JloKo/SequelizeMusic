@@ -53,7 +53,7 @@ module.exports = app => {
 *                  type: string
 *                  description: descCompositor of Compositor
 *          example:
-*              firstName: Alex
+*              firstName: Aleksander
 *              lastName: Puwkin
 *              descCompositor: Important info
 *              dateOfBirth: "2019-05-17"
@@ -102,7 +102,7 @@ module.exports = app => {
 *                  description: descCompositor of Compositor
 *          example:
 *              id: 1
-*              firstName: Alex
+*              firstName: Aleksander
 *              lastName: Puwkin
 *              descCompositor: Important info
 *              dateOfBirth: "2019-05-17"

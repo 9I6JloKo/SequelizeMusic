@@ -22,15 +22,15 @@ module.exports = function(app) {
   app.post("/api/auth/signin", controller.signin);
   const users = require("../controllers/auth.controller");
   const router = require("express").Router();
-  router.get("/", [authJwt.verifyToken, authJwt.isAdmin], users.findAll)
+  router.get("/", [authJwt.verifyToken, authJwt.isModeratorOrAdmin], users.findAll)
   router.put("/", [authJwt.verifyToken, authJwt.isModerator], users.change)
   router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], users.delete)
   app.use('/api/users', router)
 
-  router.get("/getUsername/:username", [authJwt.verifyToken, authJwt.isAdmin], users.findByLogin)
+  router.get("/getUsername/:username", [authJwt.verifyToken, authJwt.isModeratorOrAdmin], users.findByLogin)
   app.use('/api/users/getUsername', router)
   
-  router.get("/getEmail/:email", [authJwt.verifyToken, authJwt.isAdmin], users.findByEmail)
+  router.get("/getEmail/:email", [authJwt.verifyToken, authJwt.isModeratorOrAdmin], users.findByEmail)
   app.use('/api/users/getEmail', router)
 };
 
@@ -61,9 +61,9 @@ module.exports = function(app) {
 *                  type: string
 *                  description: password user
 *          example:
-*              username: Piano
-*              email: Piano@mail.ru
-*              password: Piano123
+*              username: Max
+*              email: max@gmail.com
+*              password: Max123
 *              roles: ["moderator", "admin"]
 */
 
@@ -97,8 +97,8 @@ module.exports = function(app) {
 *                  type: string
 *                  description: password user
 *          example:
-*              username: Piano
-*              password: Piano123
+*              username: Max
+*              password: Max123
 */
 
 /**
@@ -127,9 +127,9 @@ module.exports = function(app) {
 *                  description: email user
 *          example:
 *              id: 1
-*              username: Piano
-*              password: Piano123
-*              email: Piano@mail.ru
+*              username: Max
+*              password: Max123
+*              email: max@gmail.com
 */
 
 /**

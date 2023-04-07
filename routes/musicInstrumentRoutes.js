@@ -10,7 +10,7 @@ module.exports = app => {
     const instrumentMusic = require("../controllers/musicInstrumentController");
     const router = require("express").Router();
     router.post("/", [authJwt.verifyToken, authJwt.isAdmin], instrumentMusic.create)
-    router.get("/", instrumentMusic.findAll)
+    router.get("/", instrumentMusic.findAllMusicAndInstrument)
     router.put("/", [authJwt.verifyToken, authJwt.isModerator], instrumentMusic.change)
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], instrumentMusic.delete)
     app.use('/api/musicInstruments', router)

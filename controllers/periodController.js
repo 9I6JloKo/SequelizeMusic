@@ -16,7 +16,9 @@ exports.create = (req,res) => {
     Period.findOrCreate({
         where: {
             period_name: req.body.period_name,
-            desc: req.body.desc
+            desc: req.body.desc,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
         }})
     .then(data => {
         res.send(data)
@@ -53,7 +55,9 @@ exports.change = async (req,res) => {
     if(periodChar != null){
         const period = {
             period_name: req.body.period_name,
-            desc: req.body.desc
+            desc: req.body.desc,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
         }
         await Period.update(period,{
             where: {id: req.body.id}
