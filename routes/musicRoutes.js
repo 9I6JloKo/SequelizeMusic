@@ -15,10 +15,14 @@ module.exports = app => {
     router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], musics.delete)
     app.use('/api/musics', router)
 
-    // router.get("/findByGenre/:genrename", musics.findByGenre)
-    // app.use('/api/musics/findByGenre', router)
+    router.get("/findByGenre/:genre", musics.findByGenre)
+    app.use('/api/musics/findByGenre', router)
+    router.get("/findByInstrument/:instrumentName", musics.findByInstrument)
+    app.use('/api/musics/findByInstrument', router)
     router.get("/findByTitle/:title", musics.findByTitle)
     app.use('/api/musics/findByTitle', router)
+    router.get("/findByCompositor/:compositorName", musics.findByCompositor)
+    app.use('/api/musics/findByCompositor', router)
 }
 
 
@@ -51,6 +55,81 @@ module.exports = app => {
 * @swagger
 * components:
 *  schemas:
+*      MusicWithGenre:
+*          type: object
+*          properties:
+*              title:
+*                  type: string
+*                  description: title of Music
+*              genreName:
+*                  type: string
+*                  description: genreName of Music
+*              publishedAt:
+*                  type: date
+*                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+*                  description: publishedAt of Music
+*          example:
+*              title: "Mozart song"
+*              period: "some info"
+*              genreName: "classic"
+*              publishedAt: "2019-05-17"
+*/
+
+/**
+* @swagger
+* components:
+*  schemas:
+*      MusicWithInstrument:
+*          type: object
+*          properties:
+*              title:
+*                  type: string
+*                  description: title of Music
+*              instrumentName:
+*                  type: string
+*                  description: instrumentName of Music
+*              publishedAt:
+*                  type: date
+*                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+*                  description: publishedAt of Music
+*          example:
+*              title: "Mozart song"
+*              period: "some info"
+*              instrumentName: "piano"
+*              publishedAt: "2019-05-17"
+*/
+
+/**
+* @swagger
+* components:
+*  schemas:
+*      MusicWithCompositor:
+*          type: object
+*          properties:
+*              id:
+*                  type: integer
+*                  description: id of Music
+*              title:
+*                  type: string
+*                  description: Compositor of Music
+*              compositorName:
+*                  type: string
+*                  description: compositorName of Music
+*              publishedAt:
+*                  type: date
+*                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
+*                  description: publishedAt of Music
+*          example:
+*              title: "Mozart song"
+*              period: "some info"
+*              compositorName: "Petr 1"
+*              publishedAt: "2019-05-17"
+*/
+
+/**
+* @swagger
+* components:
+*  schemas:
 *      MusicPut:
 *          type: object
 *          required:
@@ -63,9 +142,6 @@ module.exports = app => {
 *              title:
 *                  type: string
 *                  description: title of Music
-*              period_id :
-*                  type: integer
-*                  description: period_id of Music
 *              publishedAt:
 *                  type: date
 *                  pattern: /([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/
@@ -73,37 +149,10 @@ module.exports = app => {
 *          example:
 *              id: 1
 *              title: "Mozart song"
-*              period_id: 1
+*              period: "some info"
 *              publishedAt: "2019-05-17"
 */
 
-
-// /**
-//  * @swagger
-//  * /api/musics/findByGenre/{genreName}:
-//  *  get:
-//  *      summary: get a Music by genre
-//  *      description: get a Music
-//  *      tags: [Musics]
-//  *      parameters:
-//  *        - $ref: '#components/parameters/AccessToken'
-//  *        - in: path
-//  *          name: genreName
-//  *          schema:
-//  *              type: string
-//  *              example: 'null'
-//  *          description: genreName of Music to get
-//  *          required: true
-//  *      responses:
-//  *          200:
-//  *              description: A list of Music.
-//  *              content:
-//  *                  application/json:
-//  *                      schema:
-//  *                          $ref: '#/components/schemas/Music'
-//  *          400:
-//  *              description: Some server error
-// */
 /**
  * @swagger
  * /api/musics/findByTitle/{title}:
@@ -112,7 +161,6 @@ module.exports = app => {
  *      description: get a Music
  *      tags: [Musics]
  *      parameters:
- *        - $ref: '#components/parameters/AccessToken'
  *        - in: path
  *          name: title
  *          schema:
@@ -126,6 +174,80 @@ module.exports = app => {
  *                  application/json:
  *                      schema:
  *                          $ref: '#/components/schemas/Music'
+ *          400:
+ *              description: Some server error
+*/
+
+/**
+ * @swagger
+ * /api/musics/findByGenre/{genre}:
+ *  get:
+ *      summary: get a Music by genre
+ *      description: get a Music
+ *      tags: [Musics]
+ *      parameters:
+ *        - in: path
+ *          name: genre
+ *          schema:
+ *              type: string
+ *          description: genre of Music to get
+ *          required: true
+ *      responses:
+ *          200:
+ *              description: A list of Music.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/MusicWithGenre'
+ *          400:
+ *              description: Some server error
+*/
+
+/**
+ * @swagger
+ * /api/musics/findByInstrument/{instrumentName}:
+ *  get:
+ *      summary: get a Music by instrument
+ *      description: get a Music
+ *      tags: [Musics]
+ *      parameters:
+ *        - in: path
+ *          name: instrumentName
+ *          schema:
+ *              type: string
+ *          description: instrumentName of Music to get
+ *          required: true
+ *      responses:
+ *          200:
+ *              description: A list of Music.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/MusicWithInstrument'
+ *          400:
+ *              description: Some server error
+*/
+/**
+ * @swagger
+ * /api/musics/findByCompositor/{compositorName}:
+ *  get:
+ *      summary: get a Music by compositor
+ *      description: get a Music
+ *      tags: [Musics]
+ *      parameters:
+ *        - in: path
+ *          name: compositorName
+ *          schema:
+ *              type: string
+ *          description: compositorName of Music to get
+ *          required: true
+ *      responses:
+ *          200:
+ *              description: A list of Music.
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/MusicWithCompositor'
  *          400:
  *              description: Some server error
 */

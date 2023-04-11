@@ -7,6 +7,8 @@ const musicCompositor = require('../dbModels/musicCompositor')
 const musicGenre = require('../dbModels/musicGenre')
 const periodMusic = require('../dbModels/period')
 const linksT = require('../dbModels/link')
+const Instrument = require('../dbModels/instrument')
+const Compositor = require('../dbModels/compositor')
 
 exports.create = (req,res) => {
     if (!req.body.title) {
@@ -81,67 +83,175 @@ exports.findByTitle = async (req,res) => {
     })
 }
 
-// exports.findByGenre = async (req,res) => {
-//     console.log(req.params.genrename);
-//     if(!req.params.genrename || req.params.genrename == "null"){
-//         let musicIds = await musicGenre.findAll({
-//             attributes: ['musicId']
-//           })
-//         await Music.findAll({
-//             where: {
-//                 id: {[Op.notIn]: musicIds}
-//             }
-//         })
-//         .then(data => {
-//             res.send(data)
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                 err.message || "Some error occured while retrieving instruments"
-//             })
-//         })
-//     }else{
-//         let genresIds = await Genre.findAll({
-//             attributes: ['id'],
-//             where: {
-//                 genre_name: {[Op.like]: `%${req.params.genrename}%`}
-//             }
-//         })
-//         let musicIds = await musicGenre.findAll({
-//             attributes: ['musicId'],
-//             where: {
-//                 genreId: {[Op.in]: genresIds}
-//             }
-//         })
-//         console.log(musicIds);
-//           await Music.findAll({
-//             where: {
-//             id: {[Op.in]: musicIds['musicId']}
-//             },
-//             include: [{
-//                 model: musicGenre,
-//                 required: true
-//             }],
-//             // include: [{
-//             //     model: Genre,
-//             //     attributes: [],
-//             //     where: {
-//             //         musicId: {[Op.notIn]: musicIds}
-//             //     },
-//             // }]
-//           })
-//           .then(data => {
-//               res.send(data)
-//           })
-//           .catch(err => {
-//               res.status(500).send({
-//                   message:
-//                       err.message || "Some error occured while retrieving instruments"
-//               })
-//           })
-//         }
-// }
+exports.findByGenre = async (req,res) => {
+    Genre.findAll({
+        where: {
+            genre_name: {[Op.like]: `%${req.params.genre}%`}
+        }
+    }).then(data => {
+        let GenreIds = [];
+        let genreData = data;
+        for (let elements of data){
+            GenreIds.push(elements.id);
+        }
+        musicGenre.findAll({
+            where: {
+                genreId: {[Op.in]: GenreIds}
+            }
+        }).then(data => {
+            let idsMusic = [];
+            let dataMusicGenre = data;
+            for (let elements of data){
+                idsMusic.push(elements.musicId);
+            }
+            Music.findAll({
+                attributes: ['id', 'title', 'publishedAt'],
+              where: {
+                id: {[Op.in]: idsMusic}
+              },
+              include: [{
+                model: periodMusic,
+                required: false
+            }]})
+            .then(data => {
+                for (let elements of data){
+                    let genres = [];
+                    for (let elementsMusicGenre of dataMusicGenre){
+                        if(elementsMusicGenre.musicId == elements.id){
+                            for (let elementsGenres of genreData){
+                                if(elementsMusicGenre.genreId == elementsGenres.id){
+                                    genres.push(elementsGenres.genre_name);
+                                }
+                            }
+                        }
+                    }
+                    elements.setDataValue("genreName",genres);
+                }
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occured while retrieving instruments"
+                })
+            })
+        })
+    })
+}
+exports.findByCompositor = async (req,res) => {
+    Compositor.findAll({
+    }).then(data => {
+        let massive = [];
+        let compositorData = data;
+        for (let elements of data){
+            let fullname = elements.firstName + " " + elements.lastName;
+            if(fullname.indexOf(req.params.compositorName) != -1) {
+                massive.push(elements.id);
+            };
+        }
+        musicCompositor.findAll({
+            where: {
+                compositorId: {[Op.in]: massive}
+            }
+        }).then(data => {
+            let idsMusic = [];
+            let dataMusicCompositor = data;
+            for (let elements of data){
+                idsMusic.push(elements.musicId);
+            }
+            Music.findAll({
+                attributes: ['id', 'title', 'publishedAt'],
+                where: {
+                    id: {[Op.in]: idsMusic}
+                },
+                include: [{
+                    model: periodMusic,
+                    required: false
+                }]
+            })
+            .then(data => {
+                for (let elements of data){
+                    let compositors = [];
+                    for (let elementsMusicCompositor of dataMusicCompositor){
+                        if(elementsMusicCompositor.musicId == elements.id){
+                            for (let elementsCompositor of compositorData){
+                                if(elementsMusicCompositor.compositorId == elementsCompositor.id){
+                                    compositors.push(elementsCompositor.firstName + " " + elementsCompositor.lastName);
+                                }
+                            }
+                        }
+                    }
+                    elements.setDataValue("compositorName", compositors);
+                }
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occured while retrieving compositors"
+                })
+            })
+        })
+    })
+}
+
+exports.findByInstrument = async (req,res) => {
+    Instrument.findAll({
+        where: {
+            instrumentName: {[Op.like]: `%${req.params.instrumentName}%`}
+        }
+    }).then(data => {
+        let InstrumentIds = [];
+        let instrumentData = data;
+        for (let elements of data){
+            InstrumentIds.push(elements.id);
+        }
+        MusicInstrument.findAll({
+            where: {
+                instrumentId: {[Op.in]: InstrumentIds}
+            }
+        }).then(data => {
+            let idsMusic = [];
+            let dataMusicInstrument = data;
+            for (let elements of data){
+                idsMusic.push(elements.musicId);
+            }
+            Music.findAll({
+                attributes: ['id', 'title', 'publishedAt'],
+                where: {
+                    id: {[Op.in]: idsMusic}
+                },
+                include: [{
+                    model: periodMusic,
+                    required: false
+                }]
+            })
+            .then(data => {
+                
+                for (let elements of data){
+                    let instruments = [];
+                    for (let elementsMusicInstrument of dataMusicInstrument){
+                        if(elementsMusicInstrument.musicId == elements.id){
+                            for (let elementsInstruments of instrumentData){
+                                if(elementsMusicInstrument.instrumentId == elementsInstruments.id){
+                                    instruments.push(elementsInstruments.instrumentName);
+                                }
+                            }
+                        }
+                    }
+                    elements.setDataValue("instrumentName", instruments);
+                }
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occured while retrieving instruments"
+                })
+            })
+        })
+    })
+}
 
 exports.change = async (req,res) => {
     if (!req.body.id) {
